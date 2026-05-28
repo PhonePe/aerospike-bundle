@@ -1,0 +1,36 @@
+id: testId
+hosts:
+  - host: aerospike001.phonepe.nb6
+    port: 3000
+  - host: aerospike002.phonepe.nb6
+    port: 3000
+  - host: aerospike003.phonepe.nb6
+    port: 3000
+retries: 5
+sleepBetweenRetries: 100
+maxConnectionsPerNode: 30
+threadPoolSize: 64
+socketTimeout: 500
+totalTimeout: 500
+readModeSC: session
+namespaces:
+  - name: ns1
+    consistency: SC
+    replicationFactor: 2
+    storage: FILE
+    tags:
+      - default_ns
+      - default_usecase_1
+  - name: ns2_ap
+    consistency: AP
+    replicationFactor: 2
+    storage: raw_device
+    tags:
+      - usecase_ap_1
+      - usecase_ap_2
+  - name: ns3_sc
+    consistency: SC
+    replicationFactor: 3
+    storage: raw_device
+    tags:
+      - usecase_sc_1

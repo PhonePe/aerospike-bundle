@@ -1,0 +1,24 @@
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+.vscode/
+
+# Build
+target/
+bin/
+dependency-reduced-pom.xml
+
+# OS
+.DS_Store
+
+# Sonar
+.sonarlint/
+
+# Docs build output
+docs/site/
+docs/.cache/

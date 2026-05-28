@@ -1,0 +1,109 @@
+# Contributing to Aerospike Bundle
+
+Thank you for considering contributing to Aerospike Bundle! This guide explains the process for contributing to this project.
+
+## Table of Contents
+
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [Making Changes](#making-changes)
+- [Pull Request Process](#pull-request-process)
+- [Coding Standards](#coding-standards)
+- [Reporting Issues](#reporting-issues)
+
+## Code of Conduct
+
+This project adheres to the [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [oss@phonepe.com](mailto:oss@phonepe.com).
+
+## Getting Started
+
+1. **Fork** the repository on GitHub.
+2. **Clone** your fork locally:
+   ```bash
+   git clone https://github.com/<your-username>/aerospike-bundle.git
+   cd aerospike-bundle
+   ```
+3. **Add the upstream remote:**
+   ```bash
+   git remote add upstream https://github.com/PhonePe/aerospike-bundle.git
+   ```
+
+## Development Setup
+
+### Prerequisites
+
+- **Java 17** or later
+- **Apache Maven 3.8+**
+
+### Build
+
+```bash
+mvn clean install
+```
+
+### Run Tests
+
+```bash
+mvn test
+```
+
+### Generate Javadoc
+
+```bash
+mvn javadoc:javadoc
+```
+
+## Making Changes
+
+1. Create a feature branch from `main`:
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+2. Make your changes in small, focused commits.
+3. Write or update tests for your changes.
+4. Ensure all tests pass:
+   ```bash
+   mvn clean verify
+   ```
+5. Update documentation if your changes affect the public API.
+
+## Pull Request Process
+
+1. Push your branch to your fork:
+   ```bash
+   git push origin feature/my-feature
+   ```
+2. Open a Pull Request against the `main` branch of the upstream repository.
+3. Fill in the PR template with:
+   - A clear description of the change
+   - The motivation / issue being addressed
+   - Steps to test the change
+4. Ensure the CI build passes.
+5. Request review from at least one maintainer.
+6. Address review feedback by pushing additional commits.
+7. Once approved, a maintainer will merge your PR.
+
+## Coding Standards
+
+- **Language level:** Java 17.
+- **Formatting:** Follow the existing code style. Lombok annotations are used throughout—keep it consistent.
+- **Naming:** Use clear, descriptive names. Prefix test methods with `test` or use descriptive `should_X_when_Y` naming.
+- **Documentation:** Add Javadoc to all public classes and methods.
+- **Testing:** Unit tests with JUnit and Mockito.
+- **Dependencies:** Avoid adding new dependencies unless absolutely necessary. Discuss in the issue first.
+- **Commits:** Write clear commit messages. Use the imperative mood ("Add feature" not "Added feature").
+
+## Reporting Issues
+
+- Use [GitHub Issues](https://github.com/PhonePe/aerospike-bundle/issues) to report bugs or request features.
+- Include:
+  - A clear title and description
+  - Steps to reproduce (for bugs)
+  - Expected vs. actual behavior
+  - Aerospike Bundle version, Java version, and Dropwizard version
+  - Relevant logs or stack traces
+
+## License
+
+By contributing to Aerospike Bundle, you agree that your contributions will be licensed under the [Apache License 2.0](LICENSE).
