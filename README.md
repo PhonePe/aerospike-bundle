@@ -9,8 +9,6 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Java](https://img.shields.io/badge/java-17%2B-blue.svg)](https://openjdk.org/projects/jdk/17/)
 
-> **Note:** Find the latest version on [Maven Central](https://search.maven.org/artifact/com.phonepe/aerospike-bundle).
-
 ## Overview
 
 Aerospike Bundle is a Java library that provides a production-ready [Dropwizard](https://www.dropwizard.io/) bundle for connecting to [Aerospike](https://aerospike.com/) clusters. It handles client lifecycle, policy configuration, health checks, metrics, pluggable interceptors, and multi-cluster routing out of the box.
@@ -36,15 +34,11 @@ Aerospike Bundle is a Java library that provides a production-ready [Dropwizard]
 <dependency>
     <groupId>com.phonepe</groupId>
     <artifactId>aerospike-bundle</artifactId>
-    <version>1.0.0</version>
+    <version>${aerospike-bundle.version}</version>
 </dependency>
 ```
 
-**Gradle**
-
-```groovy
-implementation 'com.phonepe:aerospike-bundle:1.0.0'
-```
+> **Note:** Find the latest version on [Maven Central](https://search.maven.org/artifact/com.phonepe/aerospike-bundle).
 
 ### 2. Configure
 
