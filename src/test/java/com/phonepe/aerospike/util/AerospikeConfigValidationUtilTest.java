@@ -21,7 +21,6 @@ import com.phonepe.aerospike.config.read.SingleSourceReadMode;
 import com.phonepe.aerospike.config.write.DualWriteMode;
 import com.phonepe.aerospike.config.write.SingleSourceWriteMode;
 import com.phonepe.aerospike.exception.AerospikeBundleException;
-import com.phonepe.aerospike.exception.ResponseCode;
 import org.junit.Assert;
 import org.junit.Test;
 

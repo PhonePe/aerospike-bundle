@@ -33,6 +33,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("java:S5976")
 public class AerospikeXdrServiceTest {
 
     private Node createMockNode(String hostname, int port) {

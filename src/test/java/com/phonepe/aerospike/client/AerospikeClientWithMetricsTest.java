@@ -168,7 +168,7 @@ public class AerospikeClientWithMetricsTest {
         WritePolicy wp = new WritePolicy();
 
         client.put(wp, key, bin);
-        verify(delegate).put(eq(wp), eq(key), eq(bin));
+        verify(delegate).put(wp, key, bin);
     }
 
     @Test
@@ -178,7 +178,7 @@ public class AerospikeClientWithMetricsTest {
         WritePolicy wp = new WritePolicy();
 
         client.put(wp, key, bin);
-        verify(delegate).put(eq(wp), eq(key), eq(bin));
+        verify(delegate).put(wp, key, bin);
     }
 
     // --- Read operations with interceptor ---
@@ -187,22 +187,22 @@ public class AerospikeClientWithMetricsTest {
     public void testGetCallsDelegateViaInterceptor() {
         Key key = new Key("ns", "set", "k1");
         Policy policy = new Policy();
-        Record record = new Record(null, 1, 1);
-        when(delegate.get(policy, key)).thenReturn(record);
+        Record testRecord = new Record(null, 1, 1);
+        when(delegate.get(policy, key)).thenReturn(testRecord);
 
         Record result = client.get(policy, key);
-        Assert.assertSame(record, result);
+        Assert.assertSame(testRecord, result);
     }
 
     @Test
     public void testGetWithBinsCallsDelegate() {
         Key key = new Key("ns", "set", "k1");
         Policy policy = new Policy();
-        Record record = new Record(null, 1, 1);
-        when(delegate.get(policy, key, "bin1")).thenReturn(record);
+        Record testRecord = new Record(null, 1, 1);
+        when(delegate.get(policy, key, "bin1")).thenReturn(testRecord);
 
         Record result = client.get(policy, key, "bin1");
-        Assert.assertSame(record, result);
+        Assert.assertSame(testRecord, result);
     }
 
     @Test
@@ -234,7 +234,7 @@ public class AerospikeClientWithMetricsTest {
         WritePolicy wp = new WritePolicy();
 
         client.append(wp, key, bin);
-        verify(delegate).append(eq(wp), eq(key), eq(bin));
+        verify(delegate).append(wp, key, bin);
     }
 
     // --- Touch ---
@@ -256,7 +256,7 @@ public class AerospikeClientWithMetricsTest {
         Bin bin = new Bin("b1", "val");
         WritePolicy wp = new WritePolicy();
         client.prepend(wp, key, bin);
-        verify(delegate).prepend(eq(wp), eq(key), eq(bin));
+        verify(delegate).prepend(wp, key, bin);
     }
 
     // --- Add ---
@@ -267,7 +267,7 @@ public class AerospikeClientWithMetricsTest {
         Bin bin = new Bin("b1", 1);
         WritePolicy wp = new WritePolicy();
         client.add(wp, key, bin);
-        verify(delegate).add(eq(wp), eq(key), eq(bin));
+        verify(delegate).add(wp, key, bin);
     }
 
     // --- GetHeader ---
@@ -276,9 +276,9 @@ public class AerospikeClientWithMetricsTest {
     public void testGetHeaderCallsDelegate() {
         Key key = new Key("ns", "set", "k1");
         Policy policy = new Policy();
-        Record record = new Record(null, 1, 1);
-        when(delegate.getHeader(policy, key)).thenReturn(record);
-        Assert.assertSame(record, client.getHeader(policy, key));
+        Record testRecord = new Record(null, 1, 1);
+        when(delegate.getHeader(policy, key)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, client.getHeader(policy, key));
     }
 
     // --- Truncate ---
@@ -362,9 +362,9 @@ public class AerospikeClientWithMetricsTest {
         Key key = new Key("ns", "set", "k1");
         WritePolicy wp = new WritePolicy();
         Operation op = Operation.get();
-        Record record = new Record(null, 1, 1);
-        when(delegate.operate(wp, key, op)).thenReturn(record);
-        Assert.assertSame(record, client.operate(wp, key, op));
+        Record testRecord = new Record(null, 1, 1);
+        when(delegate.operate(wp, key, op)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, client.operate(wp, key, op));
     }
 
     @Test
@@ -431,7 +431,7 @@ public class AerospikeClientWithMetricsTest {
         WritePolicy wp = new WritePolicy();
 
         clientNoMetrics.put(wp, key, bin);
-        verify(delegate).put(eq(wp), eq(key), eq(bin));
+        verify(delegate).put(wp, key, bin);
     }
 
     // --- Context key population disabled ---
@@ -443,10 +443,10 @@ public class AerospikeClientWithMetricsTest {
 
         Key key = new Key("ns", "set", "k1");
         Policy policy = new Policy();
-        Record record = new Record(null, 1, 1);
-        when(delegate.get(policy, key)).thenReturn(record);
+        Record testRecord = new Record(null, 1, 1);
+        when(delegate.get(policy, key)).thenReturn(testRecord);
 
-        Assert.assertSame(record, clientNoKeys.get(policy, key));
+        Assert.assertSame(testRecord, clientNoKeys.get(policy, key));
     }
 
     @Test
@@ -459,7 +459,7 @@ public class AerospikeClientWithMetricsTest {
         WritePolicy wp = new WritePolicy();
 
         clientNoKeys.put(wp, key, bin);
-        verify(delegate).put(eq(wp), eq(key), eq(bin));
+        verify(delegate).put(wp, key, bin);
     }
 
     @Test
@@ -483,7 +483,7 @@ public class AerospikeClientWithMetricsTest {
         Key key = new Key("ns", "set", "k1");
         Bin bin = new Bin("b1", "val");
         client.put(el, wl, wp, key, bin);
-        verify(delegate).put(eq(el), eq(wl), eq(wp), eq(key), eq(bin));
+        verify(delegate).put(el, wl, wp, key, bin);
     }
 
     @Test
@@ -494,7 +494,7 @@ public class AerospikeClientWithMetricsTest {
         Key key = new Key("ns", "set", "k1");
         Bin bin = new Bin("b1", "val");
         client.append(el, wl, wp, key, bin);
-        verify(delegate).append(eq(el), eq(wl), eq(wp), eq(key), eq(bin));
+        verify(delegate).append(el, wl, wp, key, bin);
     }
 
     @Test
@@ -505,7 +505,7 @@ public class AerospikeClientWithMetricsTest {
         Key key = new Key("ns", "set", "k1");
         Bin bin = new Bin("b1", "val");
         client.prepend(el, wl, wp, key, bin);
-        verify(delegate).prepend(eq(el), eq(wl), eq(wp), eq(key), eq(bin));
+        verify(delegate).prepend(el, wl, wp, key, bin);
     }
 
     @Test
@@ -516,7 +516,7 @@ public class AerospikeClientWithMetricsTest {
         Key key = new Key("ns", "set", "k1");
         Bin bin = new Bin("b1", 1);
         client.add(el, wl, wp, key, bin);
-        verify(delegate).add(eq(el), eq(wl), eq(wp), eq(key), eq(bin));
+        verify(delegate).add(el, wl, wp, key, bin);
     }
 
     // --- 2. Async delete methods ---
@@ -1262,11 +1262,11 @@ public class AerospikeClientWithMetricsTest {
         Map<String, Object> bins = new HashMap<>();
         bins.put("strBin", "hello");
         bins.put("bytesBin", new byte[]{1, 2, 3, 4, 5});
-        Record record = new Record(bins, 1, 1);
-        when(delegate.get(policy, key)).thenReturn(record);
+        Record testRecord = new Record(bins, 1, 1);
+        when(delegate.get(policy, key)).thenReturn(testRecord);
 
         Record result = client.get(policy, key);
-        Assert.assertSame(record, result);
+        Assert.assertSame(testRecord, result);
         // Verify that size metrics were registered (gauges should exist in registry)
         Assert.assertFalse(metricRegistry.getGauges().isEmpty());
     }

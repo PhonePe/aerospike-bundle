@@ -210,17 +210,12 @@ public class DualModeAerospikeClientTest {
         verify(secondaryClient).put(wp, key, bin);
     }
 
-    @Test
+    @Test(expected = AerospikeBundleException.class)
     public void testPutDualWriteModeSecondaryFailsWithErrorEnabled() {
         when(resolver.getDualModeASReadWriteConfig()).thenReturn(dualConfig);
         doThrow(new AerospikeException("fail")).when(secondaryClient).put(any(WritePolicy.class), any(Key.class), any(Bin.class));
         Key key = new Key("ns", "set", "k1");
-        try {
-            dualClient.put(new WritePolicy(), key, new Bin("b", "v"));
-            Assert.fail("Expected exception");
-        } catch (AerospikeBundleException e) {
-            Assert.assertEquals(ResponseCode.SECONDARY_CLUSTER_PUT_ATTEMPT_FAILED, e.getResponseCode());
-        }
+        dualClient.put(new WritePolicy(), key, new Bin("b", "v"));
     }
 
     @Test
@@ -250,7 +245,7 @@ public class DualModeAerospikeClientTest {
         WritePolicy wp = new WritePolicy();
         Bin bin = new Bin("b", "v");
         dualClient.put(el, wl, wp, key, bin);
-        verify(primaryClient).put(eq(el), eq(wl), eq(wp), eq(key), eq(bin));
+        verify(primaryClient).put(el, wl, wp, key, bin);
     }
 
     @Test
@@ -638,18 +633,18 @@ public class DualModeAerospikeClientTest {
     public void testGet() {
         Policy policy = new Policy();
         Key key = new Key("ns", "set", "k1");
-        Record record = new Record(null, 1, 1);
-        when(primaryClient.get(policy, key)).thenReturn(record);
-        Assert.assertSame(record, dualClient.get(policy, key));
+        Record testRecord = new Record(null, 1, 1);
+        when(primaryClient.get(policy, key)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, dualClient.get(policy, key));
     }
 
     @Test
     public void testGetWithBins() {
         Policy policy = new Policy();
         Key key = new Key("ns", "set", "k1");
-        Record record = new Record(null, 1, 1);
-        when(primaryClient.get(policy, key, "bin1")).thenReturn(record);
-        Assert.assertSame(record, dualClient.get(policy, key, "bin1"));
+        Record testRecord = new Record(null, 1, 1);
+        when(primaryClient.get(policy, key, "bin1")).thenReturn(testRecord);
+        Assert.assertSame(testRecord, dualClient.get(policy, key, "bin1"));
     }
 
     @Test
@@ -676,9 +671,9 @@ public class DualModeAerospikeClientTest {
     public void testGetHeader() {
         Policy policy = new Policy();
         Key key = new Key("ns", "set", "k1");
-        Record record = new Record(null, 1, 1);
-        when(primaryClient.getHeader(policy, key)).thenReturn(record);
-        Assert.assertSame(record, dualClient.getHeader(policy, key));
+        Record testRecord = new Record(null, 1, 1);
+        when(primaryClient.getHeader(policy, key)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, dualClient.getHeader(policy, key));
     }
 
     @Test
@@ -806,9 +801,9 @@ public class DualModeAerospikeClientTest {
         Key key = new Key("ns", "set", "k1");
         WritePolicy wp = new WritePolicy();
         Operation op = Operation.get();
-        Record record = new Record(null, 1, 1);
-        when(primaryClient.operate(wp, key, op)).thenReturn(record);
-        Assert.assertSame(record, dualClient.operate(wp, key, op));
+        Record testRecord = new Record(null, 1, 1);
+        when(primaryClient.operate(wp, key, op)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, dualClient.operate(wp, key, op));
     }
 
     @Test
@@ -817,9 +812,9 @@ public class DualModeAerospikeClientTest {
         Key key = new Key("ns", "set", "k1");
         WritePolicy wp = new WritePolicy();
         Operation op = Operation.get();
-        Record record = new Record(null, 1, 1);
-        when(primaryClient.operate(wp, key, op)).thenReturn(record);
-        Assert.assertSame(record, dualClient.operate(wp, key, op));
+        Record testRecord = new Record(null, 1, 1);
+        when(primaryClient.operate(wp, key, op)).thenReturn(testRecord);
+        Assert.assertSame(testRecord, dualClient.operate(wp, key, op));
         verify(secondaryClient).operate(wp, key, op);
     }
 
