@@ -95,7 +95,6 @@ public class DualModeASClientResolverTest {
         ConcurrentHashMap<String, IAerospikeClient> asClientMap = new ConcurrentHashMap<>();
         val primaryClusterId = "clusterId1";
         val secondaryClusterId = "clusterId2";
-        val baseConfig = buildDualModeASReadWriteConfig(primaryClusterId, secondaryClusterId);
         val initialConfig = buildDualModeASReadWriteConfig(primaryClusterId, secondaryClusterId);
         val mockPrimaryClient = mock(IAerospikeClient.class);
         val mockSecondaryClient = mock(IAerospikeClient.class);

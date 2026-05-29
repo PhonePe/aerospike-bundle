@@ -39,7 +39,7 @@ public class AerospikeHealthCheckTest {
     }
 
     @Test
-    public void testHealthyWhenNodesAvailable() throws Exception {
+    public void testHealthyWhenNodesAvailable() {
         Node mockNode = mock(Node.class);
         when(mockClient.getNodes()).thenReturn(new Node[]{mockNode});
         when(mockClient.getInfoPolicyDefault()).thenReturn(new InfoPolicy());
@@ -53,7 +53,7 @@ public class AerospikeHealthCheckTest {
     }
 
     @Test
-    public void testUnhealthyWhenNoNodes() throws Exception {
+    public void testUnhealthyWhenNoNodes() {
         when(mockClient.getNodes()).thenReturn(new Node[]{});
         when(mockClient.getInfoPolicyDefault()).thenReturn(new InfoPolicy());
 
@@ -62,7 +62,7 @@ public class AerospikeHealthCheckTest {
     }
 
     @Test
-    public void testUnhealthyWhenClientThrows() throws Exception {
+    public void testUnhealthyWhenClientThrows() {
         when(mockClient.getNodes()).thenThrow(new RuntimeException("not connected"));
 
         HealthCheck.Result result = healthCheck.check();

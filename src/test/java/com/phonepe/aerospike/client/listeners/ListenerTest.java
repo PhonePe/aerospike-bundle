@@ -125,9 +125,9 @@ public class ListenerTest {
         RecordListener original = mock(RecordListener.class);
         Supplier<Void> supplier = mock(Supplier.class);
         PrimaryRecordListener<Void> listener = new PrimaryRecordListener<>(original, supplier, false);
-        Record record = new Record(null, 1, 1);
-        listener.onSuccess(testKey, record);
-        verify(original).onSuccess(testKey, record);
+        Record testRecord = new Record(null, 1, 1);
+        listener.onSuccess(testKey, testRecord);
+        verify(original).onSuccess(testKey, testRecord);
         verify(supplier).get();
     }
 
@@ -136,8 +136,8 @@ public class ListenerTest {
         RecordListener original = mock(RecordListener.class);
         Supplier<Void> supplier = mock(Supplier.class);
         PrimaryRecordListener<Void> listener = new PrimaryRecordListener<>(original, supplier, true);
-        Record record = new Record(null, 1, 1);
-        listener.onSuccess(testKey, record);
+        Record testRecord = new Record(null, 1, 1);
+        listener.onSuccess(testKey, testRecord);
         verify(original, never()).onSuccess(any(), any());
         verify(supplier).get();
     }
@@ -157,9 +157,9 @@ public class ListenerTest {
     public void testSecondaryRecordListenerOnSuccessWithErrorTrue() {
         RecordListener original = mock(RecordListener.class);
         SecondaryRecordListener<Void> listener = new SecondaryRecordListener<>(original, true);
-        Record record = new Record(null, 1, 1);
-        listener.onSuccess(testKey, record);
-        verify(original).onSuccess(testKey, record);
+        Record testRecord = new Record(null, 1, 1);
+        listener.onSuccess(testKey, testRecord);
+        verify(original).onSuccess(testKey, testRecord);
     }
 
     @Test

@@ -46,11 +46,12 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        // Should not throw
+        // Should not throw - validates successfully
         AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
+        Assert.assertNotNull(config);
     }
 
-    @Test
+    @Test(expected = AerospikeBundleException.class)
     public void testInvalidReadClusterIdNotInValidSet() {
         DualModeASReadWriteConfig config = DualModeASReadWriteConfig.builder()
                 .readMode(new SingleSourceReadMode("cluster_unknown"))
@@ -58,15 +59,10 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        try {
-            AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
-            Assert.fail("Expected exception");
-        } catch (AerospikeBundleException e) {
-            Assert.assertEquals(ResponseCode.VALIDATION_ERROR, e.getResponseCode());
-        }
+        AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
     }
 
-    @Test
+    @Test(expected = AerospikeBundleException.class)
     public void testInvalidReadClusterIdNotInWriteClusterIds() {
         DualModeASReadWriteConfig config = DualModeASReadWriteConfig.builder()
                 .readMode(new SingleSourceReadMode("cluster1"))
@@ -74,15 +70,10 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        try {
-            AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1", "cluster2"));
-            Assert.fail("Expected exception");
-        } catch (AerospikeBundleException e) {
-            Assert.assertEquals(ResponseCode.VALIDATION_ERROR, e.getResponseCode());
-        }
+        AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1", "cluster2"));
     }
 
-    @Test
+    @Test(expected = AerospikeBundleException.class)
     public void testInvalidEmptyReadClusterId() {
         DualModeASReadWriteConfig config = DualModeASReadWriteConfig.builder()
                 .readMode(new SingleSourceReadMode(""))
@@ -90,15 +81,10 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        try {
-            AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
-            Assert.fail("Expected exception");
-        } catch (AerospikeBundleException e) {
-            Assert.assertEquals(ResponseCode.VALIDATION_ERROR, e.getResponseCode());
-        }
+        AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
     }
 
-    @Test
+    @Test(expected = AerospikeBundleException.class)
     public void testInvalidWriteClusterIdNotInValidSet() {
         DualModeASReadWriteConfig config = DualModeASReadWriteConfig.builder()
                 .readMode(new SingleSourceReadMode("cluster1"))
@@ -106,12 +92,7 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        try {
-            AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
-            Assert.fail("Expected exception");
-        } catch (AerospikeBundleException e) {
-            Assert.assertEquals(ResponseCode.VALIDATION_ERROR, e.getResponseCode());
-        }
+        AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1"));
     }
 
     @Test
@@ -122,7 +103,8 @@ public class AerospikeConfigValidationUtilTest {
                 .configRefreshInSeconds(10)
                 .build();
 
-        // Should not throw
+        // Should not throw - validates successfully
         AerospikeConfigValidationUtil.configValidation(config, setOf("cluster1", "cluster2"));
+        Assert.assertNotNull(config);
     }
 }

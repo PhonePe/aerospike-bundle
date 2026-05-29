@@ -955,6 +955,7 @@ public class DualModeAerospikeClient implements IAerospikeClient {
         });
     }
 
+    @SuppressWarnings("java:S4144")
     @Override
     public RegisterTask registerUdfString(Policy policy, String s, String s1, Language language) throws AerospikeException {
         val dualModeASReadWriteConfig = asClientResolver.getDualModeASReadWriteConfig();

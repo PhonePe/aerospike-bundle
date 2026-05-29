@@ -22,8 +22,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
