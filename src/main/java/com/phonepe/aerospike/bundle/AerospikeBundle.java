@@ -66,7 +66,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AerospikeBundle<T extends Configuration> implements ConfiguredBundle<T> {
@@ -180,30 +179,37 @@ public abstract class AerospikeBundle<T extends Configuration> implements Config
 
     protected abstract AerospikeBundleConfig configuration(T configuration);
 
+    @SuppressWarnings("java:S1172")
     protected Supplier<DualModeASReadWriteConfig> refreshDualModeASReadWriteConfig(T configuration) {
         return () -> null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected WritePolicy writePolicy(T configuration) {
         return null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected Policy readPolicy(T configuration) {
         return null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected ScanPolicy scanPolicy(T configuration) {
         return null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected QueryPolicy queryPolicy(T configuration) {
         return null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected BatchPolicy batchPolicy(T configuration) {
         return null;
     }
 
+    @SuppressWarnings("java:S1172")
     protected ExecutorService threadPool(T configuration) {
         return null;
     }
@@ -343,7 +349,7 @@ public abstract class AerospikeBundle<T extends Configuration> implements Config
     private List<Host> hosts(List<AerospikeHost> connections) {
         return connections.stream()
                 .map(connection -> new Host(connection.getHost(), connection.getTlsName(), connection.getPort()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     private void validateDualModeOfOperationASConfig(@Valid final DualModeOfOperation config) {

@@ -2,14 +2,21 @@
 
 > A Dropwizard bundle for seamless Aerospike integration with metrics, interceptors, and dual-mode operations.
 
-[![CI](https://github.com/PhonePe/aerospike-bundle/actions/workflows/maven.yml/badge.svg)](https://github.com/PhonePe/aerospike-bundle/actions/workflows/maven.yml)
-[![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=alert_status)](https://sonarcloud.io/dashboard?id=PhonePe_aerospike-bundle)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=coverage)](https://sonarcloud.io/dashboard?id=PhonePe_aerospike-bundle)
-[![Maven Central](https://img.shields.io/maven-central/v/com.phonepe/aerospike-bundle.svg)](https://search.maven.org/artifact/com.phonepe/aerospike-bundle)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Build](https://github.com/PhonePe/aerospike-bundle/actions/workflows/maven.yml/badge.svg)](https://github.com/PhonePe/aerospike-bundle/actions/workflows/maven.yml)
+[![SonarCloud](https://github.com/PhonePe/aerospike-bundle/actions/workflows/sonarcloud-checks.yml/badge.svg)](https://github.com/PhonePe/aerospike-bundle/actions/workflows/sonarcloud-checks.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=coverage)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=bugs)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=PhonePe_aerospike-bundle&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=PhonePe_aerospike-bundle)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.phonepe/aerospike-bundle)](https://central.sonatype.com/artifact/com.phonepe/aerospike-bundle)
 [![Java](https://img.shields.io/badge/java-17%2B-blue.svg)](https://openjdk.org/projects/jdk/17/)
-
-> **Note:** Find the latest version on [Maven Central](https://search.maven.org/artifact/com.phonepe/aerospike-bundle).
 
 ## Overview
 
@@ -36,15 +43,11 @@ Aerospike Bundle is a Java library that provides a production-ready [Dropwizard]
 <dependency>
     <groupId>com.phonepe</groupId>
     <artifactId>aerospike-bundle</artifactId>
-    <version>1.0.0</version>
+    <version>${aerospike-bundle.version}</version>
 </dependency>
 ```
 
-**Gradle**
-
-```groovy
-implementation 'com.phonepe:aerospike-bundle:1.0.0'
-```
+> **Note:** Find the latest version on [Maven Central](https://search.maven.org/artifact/com.phonepe/aerospike-bundle).
 
 ### 2. Configure
 

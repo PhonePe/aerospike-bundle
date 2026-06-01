@@ -19,7 +19,6 @@ package com.phonepe.aerospike.managed;
 import com.aerospike.client.IAerospikeClient;
 import com.google.common.annotations.VisibleForTesting;
 import com.phonepe.aerospike.config.operation.DualModeASReadWriteConfig;
-import com.phonepe.aerospike.config.read.ReadModeConfigVisitor;
 import com.phonepe.aerospike.config.read.SingleSourceReadMode;
 import com.phonepe.aerospike.config.write.DualWriteMode;
 import com.phonepe.aerospike.config.write.SingleSourceWriteMode;
@@ -32,7 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -44,14 +44,14 @@ public class DualModeASClientResolver implements Managed {
 
     private final ScheduledExecutorService scheduler;
 
-    private volatile DualModeASReadWriteConfig dualModeASReadWriteConfig;
+    private final AtomicReference<DualModeASReadWriteConfig> dualModeASReadWriteConfig;
     private Supplier<DualModeASReadWriteConfig> dualModeASReadWriteConfigSupplier;
-    private final ConcurrentHashMap<String, IAerospikeClient> asClientMap;
+    private final ConcurrentMap<String, IAerospikeClient> asClientMap;
 
     public DualModeASClientResolver(final Supplier<DualModeASReadWriteConfig> dualModeASReadWriteConfigSupplier,
-                                    final ConcurrentHashMap<String, IAerospikeClient> asClientMap) {
+                                    final ConcurrentMap<String, IAerospikeClient> asClientMap) {
         this.scheduler = Executors.newSingleThreadScheduledExecutor();
-        this.dualModeASReadWriteConfig = dualModeASReadWriteConfigSupplier.get();
+        this.dualModeASReadWriteConfig = new AtomicReference<>(dualModeASReadWriteConfigSupplier.get());
         this.dualModeASReadWriteConfigSupplier = dualModeASReadWriteConfigSupplier;
         this.asClientMap = asClientMap;
     }
@@ -60,7 +60,7 @@ public class DualModeASClientResolver implements Managed {
     public void start() {
         scheduler.scheduleAtFixedRate(this::configRefresh,
                 60,
-                dualModeASReadWriteConfig.getConfigRefreshInSeconds(),
+                dualModeASReadWriteConfig.get().getConfigRefreshInSeconds(),
                 TimeUnit.SECONDS);
     }
 
@@ -70,16 +70,12 @@ public class DualModeASClientResolver implements Managed {
     }
 
     public IAerospikeClient primaryASClient() {
-        return dualModeASReadWriteConfig.getReadMode().accept(new ReadModeConfigVisitor<IAerospikeClient>() {
-            @Override
-            public IAerospikeClient visit(final SingleSourceReadMode singleSourceReadMode) {
-                return asClientMap.get(singleSourceReadMode.getClusterId());
-            }
-        });
+        return dualModeASReadWriteConfig.get().getReadMode().accept(
+                (SingleSourceReadMode singleSourceReadMode) -> asClientMap.get(singleSourceReadMode.getClusterId()));
     }
 
     public IAerospikeClient primaryWriteASClient() {
-        return dualModeASReadWriteConfig.getWriteMode().accept(new WriteModeConfigVisitor<IAerospikeClient>() {
+        return dualModeASReadWriteConfig.get().getWriteMode().accept(new WriteModeConfigVisitor<IAerospikeClient>() {
 
             @Override
             public IAerospikeClient visit(final SingleSourceWriteMode singleSourceWriteMode) {
@@ -98,14 +94,14 @@ public class DualModeASClientResolver implements Managed {
     }
 
     public DualModeASReadWriteConfig getDualModeASReadWriteConfig() {
-        return dualModeASReadWriteConfig;
+        return dualModeASReadWriteConfig.get();
     }
 
     public List<IAerospikeClient> getAllAerospikeClient() {
-        return dualModeASReadWriteConfig.getWriteMode().clusterIds()
+        return dualModeASReadWriteConfig.get().getWriteMode().clusterIds()
                 .stream()
                 .map(asClientMap::get)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @VisibleForTesting
@@ -119,7 +115,7 @@ public class DualModeASClientResolver implements Managed {
         }
 
         val newDualModeASReadWriteConfig = dualModeASReadWriteConfigSupplier.get();
-        boolean configRefreshedNeeded = !dualModeASReadWriteConfig.toString().equals(newDualModeASReadWriteConfig.toString());
+        boolean configRefreshedNeeded = !dualModeASReadWriteConfig.get().toString().equals(newDualModeASReadWriteConfig.toString());
         if (!configRefreshedNeeded) {
             return;
         }
@@ -132,8 +128,8 @@ public class DualModeASClientResolver implements Managed {
             AerospikeConfigValidationUtil.configValidation(newDualModeASReadWriteConfig, validClusterIds);
 
             // setting new config as default config
-            dualModeASReadWriteConfig = newDualModeASReadWriteConfig;
-            log.info("config refreshed: new config set to: {}", dualModeASReadWriteConfig);
+            dualModeASReadWriteConfig.set(newDualModeASReadWriteConfig);
+            log.info("config refreshed: new config set to: {}", dualModeASReadWriteConfig.get());
         } catch (Exception e) {
             log.error("exception while validating config, new config will not be used ", e);
         }

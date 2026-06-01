@@ -17,10 +17,8 @@
 package com.phonepe.aerospike.config;
 
 import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @ToString
@@ -29,8 +27,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class AerospikeHost {
 
-    @NotNull
-    @NotEmpty
+    @NotBlank
     private String host;
 
     @Min(1)
